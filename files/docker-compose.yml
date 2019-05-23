@@ -1,0 +1,57 @@
+version: '3.7'
+
+services:
+
+  mysql:
+    image: mysql:latest
+    command: mysqld --datadir=/tmp/mysqldata
+    environment:
+      MYSQL_ROOT_PASSWORD: toor
+      MYSQL_DATABASE: kolide
+      MYSQL_USER: kolide
+      MYSQL_PASSWORD: fleet
+    volumes:
+      - ./mysqldata:/tmp
+    expose:
+      - "3306"
+
+  mailhog:
+    image: mailhog/mailhog:latest
+    expose:
+      - "1025"
+    ports:
+      - "8025:8025"
+
+  redis:
+    image: redis:latest
+    expose:
+      - "6379"
+
+  fleet:
+    image: kolide/fleet:latest
+    command: sh -c "/usr/local/bin/wait-for.sh mysql:3306 -t 1200 -- sh /usr/local/bin/startfleet.sh"
+    environment:
+      KOLIDE_MYSQL_ADDRESS: mysql:3306
+      KOLIDE_MYSQL_DATABASE: kolide
+      KOLIDE_MYSQL_USERNAME: kolide
+      KOLIDE_MYSQL_PASSWORD: fleet
+      KOLIDE_REDIS_ADDRESS: redis:6379
+      KOLIDE_SERVER_ADDRESS: 0.0.0.0:443
+      KOLIDE_SERVER_CERT: /tmp/certs/server.cert
+      KOLIDE_SERVER_KEY: /tmp/certs/server.key
+      KOLIDE_LOGGING_JSON: 'true'
+      KOLIDE_AUTH_JWT_KEY: '5up3r53cR3tjwt0kenKey'
+    depends_on:
+      - mysql
+      - mailhog
+      - redis
+    volumes:
+      - ./fleet:/tmp
+      - ./fleetctl:/usr/local/bin/fleetctl
+      - ./osquery/:/etc/osquery
+      - ./wait-for.sh:/usr/local/bin/wait-for.sh
+      - ./startfleet.sh:/usr/local/bin/startfleet.sh
+    tty: true
+    ports:
+      - "8443:443"
+      - "8412:8412"
