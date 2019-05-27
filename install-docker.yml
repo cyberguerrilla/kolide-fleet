@@ -1,0 +1,61 @@
+---
+- name: Install Docker and Dependencies
+  hosts: 127.0.0.1
+  connection: local
+  gather_facts: no
+  become: yes
+  become_method: sudo
+  connection: local
+
+  tasks:
+
+  - name: Add Docker GPG key.
+    rpm_key:
+      key: https://download.docker.com/linux/centos/gpg
+      state: present
+
+  - name: Add Docker repository.
+    get_url:
+      url: "https://download.docker.com/linux/centos/docker-ce.repo"
+      dest: '/etc/yum.repos.d/docker-ce.repo'
+      owner: root
+      group: root
+      mode: 0644
+
+  - name: Install Docker.
+    package:
+      name: docker-ce
+      state: latest
+
+  - name: Install rsync to syncronize files
+    package:
+      name: rsync
+      state: latest
+
+  - name: Ensure Docker is started and enabled at boot.
+    service:
+      name: docker
+      state: started
+      enabled: true
+
+  - name: Ensure EPEL is enabled 
+    yum: 
+      name: epel-release 
+      state: present 
+
+  - name: install python-pip
+    yum:
+      name: python-pip
+      state: latest
+
+  - name: pip docker
+    pip:
+      name: docker
+
+  - name: pip docker-compose
+    pip:
+      name: docker-compose
+
+  - name: pip pyopenssl
+    pip:
+      name: pyopenssl

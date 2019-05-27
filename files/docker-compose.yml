@@ -11,7 +11,7 @@ services:
       MYSQL_USER: kolide
       MYSQL_PASSWORD: fleet
     volumes:
-      - ./mysqldata:/tmp
+      - mysqldata:/tmp
     expose:
       - "3306"
 
@@ -37,8 +37,8 @@ services:
       KOLIDE_MYSQL_PASSWORD: fleet
       KOLIDE_REDIS_ADDRESS: redis:6379
       KOLIDE_SERVER_ADDRESS: 0.0.0.0:443
-      KOLIDE_SERVER_CERT: /tmp/certs/server.cert
-      KOLIDE_SERVER_KEY: /tmp/certs/server.key
+      KOLIDE_SERVER_CERT: /etc/pki/tls/certs/server.cert
+      KOLIDE_SERVER_KEY: /etc/pki/tls/certs/server.key
       KOLIDE_LOGGING_JSON: 'true'
       KOLIDE_AUTH_JWT_KEY: '5up3r53cR3tjwt0kenKey'
     depends_on:
@@ -46,7 +46,9 @@ services:
       - mailhog
       - redis
     volumes:
-      - ./fleet:/tmp
+      - fleet:/tmp
+      - ./fleet/certs/server.cert:/etc/pki/tls/certs/server.cert
+      - ./fleet/certs/server.key:/etc/pki/tls/certs/server.key
       - ./fleetctl:/usr/local/bin/fleetctl
       - ./osquery/:/etc/osquery
       - ./wait-for.sh:/usr/local/bin/wait-for.sh
@@ -55,3 +57,9 @@ services:
     ports:
       - "8443:443"
       - "8412:8412"
+
+volumes:
+  mysqldata:
+    driver: local
+  fleet:
+    driver: local

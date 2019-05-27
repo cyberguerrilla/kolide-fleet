@@ -1,0 +1,44 @@
+---
+- name: Generate Certificates for Kolide Fleet
+  hosts: 127.0.0.1
+  connection: local
+  gather_facts: no
+  become: yes
+  become_method: sudo
+  connection: local
+
+  tasks:
+    
+  - name: Create Fleet certificate directory structure
+    file:
+      path: /opt/kolide/fleet/certs
+      state: directory
+
+  - name: Generate a private key for Kolide Fleet
+    openssl_privatekey:
+      path: /opt/kolide/fleet/certs/server.key
+      mode: a+xr
+ 
+  - name: Generate a CSR for Kolide Fleet
+    openssl_csr:
+      path: /opt/kolide/fleet/certs/server.csr
+      mode: a+xr
+      privatekey_path: /opt/kolide/fleet/certs/server.key
+      country_name: "US"
+      state_or_province_name: "TX"
+      locality_name: "San Antonio"
+      organization_name: "BSidesSATX"
+      common_name: "fleet"
+      use_common_name_for_san: yes
+      extended_key_usage:
+        - serverAuth
+        - clientAuth
+      basic_constraints: "CA:FALSE"
+
+  - name: Generate a Self Signed OpenSSL certificate for Kolide Fleet
+    openssl_certificate:
+      path: /opt/kolide/fleet/certs/server.cert
+      mode: a+xr
+      privatekey_path: /opt/kolide/fleet/certs/server.key
+      csr_path: /opt/kolide/fleet/certs/server.csr
+      provider: selfsigned

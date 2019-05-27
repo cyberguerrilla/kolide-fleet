@@ -1,0 +1,27 @@
+---
+- name: Create Kolide Fleet Desktop Shortcut
+  hosts: 127.0.0.1
+  connection: local
+  gather_facts: no
+  become: yes
+  become_method: sudo
+  connection: local
+
+  tasks:
+
+  - name: Create desktop shortcut image
+    copy:
+      src: images/
+      dest: /usr/share/icons/
+
+  - name: Create Fleet desktop shortcut
+    copy:
+      dest: /home/guerillabt/Desktop/Kolide\ Fleet.desktop
+      content: |
+        [Desktop Entry]
+        Encoding=UTF-8
+        Name=Kolide Fleet
+        Type=Link
+        URL=https://127.0.0.1:8443
+        Icon=/usr/share/icons/fleet.png
+        Name[en_US]=Kolide Fleet

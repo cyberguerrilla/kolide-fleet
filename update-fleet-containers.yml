@@ -1,0 +1,36 @@
+---
+- name: Update Kolide Fleet Containers
+  hosts: 127.0.0.1
+  connection: local
+  gather_facts: no
+  become: yes
+  become_method: sudo
+  connection: local
+
+  tasks:
+    
+  - name: Copy docker-compose file 
+    copy:
+      src: files/docker-compose.yml
+      dest: /opt/kolide/
+
+  - name: Copy Fleetctl, scripts and configs
+    copy:
+      src: files/{{ item }}
+      dest: /opt/kolide/
+      mode: a+rx
+    with_items:
+      - wait-for.sh
+      - startfleet.sh
+      - fleetctl
+
+  - name: \'Synchronize\' osquery configs
+    copy:
+      src: files/osquery/
+      dest: /opt/kolide/osquery/
+      
+  - name: docker-compose up
+    docker_compose:
+      project_src: /opt/kolide
+      recreate: always
+      state: present

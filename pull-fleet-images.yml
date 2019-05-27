@@ -1,0 +1,30 @@
+---
+- name: Pull Kolide Fleet Docker Images
+  hosts: 127.0.0.1
+  connection: local
+  gather_facts: no
+  become: yes
+  become_method: sudo
+  connection: local
+
+  tasks:
+    
+  - name: MySQL docker image
+    docker_image:
+      name: mysql:latest
+      source: pull
+
+  - name: Redis docker image
+    docker_image:
+      name: redis:latest
+      source: pull
+
+  - name: Mailhog docker image
+    docker_image:
+      name: mailhog/mailhog:latest
+      source: pull
+
+  - name: Kolide Fleet docker image
+    docker_image:
+      name: kolide/fleet:latest
+      source: pull
