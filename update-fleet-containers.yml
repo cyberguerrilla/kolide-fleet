@@ -8,7 +8,13 @@
   connection: local
 
   tasks:
-    
+
+  - name: Create Fleet log directory
+    file:
+      path: /var/log/kolide
+      state: directory
+      mode: "u=rwx,g=rwx,o=rwx"    
+
   - name: Copy docker-compose file 
     copy:
       src: files/docker-compose.yml

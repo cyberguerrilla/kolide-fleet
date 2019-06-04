@@ -16,7 +16,7 @@
 
   - name: Create Fleet desktop shortcut
     copy:
-      dest: /home/guerillabt/Desktop/Kolide\ Fleet.desktop
+      dest: /home/analyst/Desktop/Kolide\ Fleet.desktop
       content: |
         [Desktop Entry]
         Encoding=UTF-8

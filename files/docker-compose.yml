@@ -40,6 +40,8 @@ services:
       KOLIDE_SERVER_CERT: /etc/pki/tls/certs/server.cert
       KOLIDE_SERVER_KEY: /etc/pki/tls/certs/server.key
       KOLIDE_LOGGING_JSON: 'true'
+      KOLIDE_OSQUERY_RESULT_LOG_FILE: /var/log/kolide/osquery_result.log
+      KOLIDE_OSQUERY_STATUS_LOG_FILE: /var/log/kolide/osquery_status.log
       KOLIDE_AUTH_JWT_KEY: '5up3r53cR3tjwt0kenKey'
     depends_on:
       - mysql
@@ -53,6 +55,7 @@ services:
       - ./osquery/:/etc/osquery
       - ./wait-for.sh:/usr/local/bin/wait-for.sh
       - ./startfleet.sh:/usr/local/bin/startfleet.sh
+      - /var/log/kolide/:/var/log/kolide/
     tty: true
     ports:
       - "8443:443"
