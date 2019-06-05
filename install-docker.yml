@@ -45,8 +45,13 @@
 
   - name: install python-pip
     yum:
-      name: python-pip
-      state: latest
+      name: python2-pip-8.1.2-8.el7.noarch
+      state: present
+      allow_downgrade: yes
+
+  - name: downgrade pip to 8.1.2 because of wacky stuff with ssl_match_hostname
+    pip:
+      name: pip==8.1.2
 
   - name: pip docker
     pip:
