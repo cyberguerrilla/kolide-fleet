@@ -5,6 +5,7 @@ services:
   mysql:
     image: mysql:latest
     command: mysqld --datadir=/tmp/mysqldata
+    container_name: mysql
     environment:
       MYSQL_ROOT_PASSWORD: toor
       MYSQL_DATABASE: kolide
@@ -17,6 +18,7 @@ services:
 
   mailhog:
     image: mailhog/mailhog:latest
+    container_name: mailhog
     expose:
       - "1025"
     ports:
@@ -24,12 +26,14 @@ services:
 
   redis:
     image: redis:latest
+    container_name: redis
     expose:
       - "6379"
 
   fleet:
     image: kolide/fleet:latest
     command: sh -c "/usr/local/bin/wait-for.sh mysql:3306 -t 1200 -- sh /usr/local/bin/startfleet.sh"
+    container_name: fleet
     environment:
       KOLIDE_MYSQL_ADDRESS: mysql:3306
       KOLIDE_MYSQL_DATABASE: kolide
