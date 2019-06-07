@@ -52,7 +52,6 @@ services:
       - mailhog
       - redis
     volumes:
-      - fleet:/tmp
       - ./fleet/certs/server.cert:/etc/pki/tls/certs/server.cert
       - ./fleet/certs/server.key:/etc/pki/tls/certs/server.key
       - ./fleetctl:/usr/local/bin/fleetctl
@@ -63,7 +62,6 @@ services:
     tty: true
     ports:
       - "8443:443"
-      - "8412:8412"
 
 volumes:
   mysqldata:
