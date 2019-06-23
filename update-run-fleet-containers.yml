@@ -1,13 +1,13 @@
 ---
+- import_playbook: update-local-checkout.yml
+- import_playbook: sync-files.yml
+
 - name: Update and Run Kolide Fleet Containers
   hosts: 127.0.0.1
   connection: local
   gather_facts: no
   become: yes
   become_method: sudo
-
-- import_playbook: update-local-checkout.yml
-- import_playbook: sync-files.yml
 
   tasks:
 
