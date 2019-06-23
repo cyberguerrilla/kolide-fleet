@@ -8,9 +8,6 @@
 
   tasks:
 
-  - name: git pull updates
-    git:
-      repo: https://github.com/cyberguerrilla/kolide-fleet.git
-      dest: /opt/playbooks
-      version: master
-      update: yes
+  - command: git pull
+    args:
+      chdir: /opt/playbooks/kolide-fleet
