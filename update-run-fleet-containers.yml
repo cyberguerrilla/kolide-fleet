@@ -6,10 +6,10 @@
   become: yes
   become_method: sudo
 
-  tasks:
-
 - import_playbook: update-local-checkout.yml
 - import_playbook: sync-files.yml
+
+  tasks:
 
   - name: docker-compose up
     docker_compose:
