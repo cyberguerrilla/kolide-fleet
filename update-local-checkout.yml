@@ -12,5 +12,5 @@
     git:
       repo: https://github.com/cyberguerrilla/kolide-fleet.git
       dest: /opt/playbooks
-      clone: no
+      version: master
       update: yes
