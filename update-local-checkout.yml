@@ -1,5 +1,5 @@
 ---
-- name: Update ELK Containers
+- name: Update Kolide local checkout
   hosts: 127.0.0.1
   connection: local
   gather_facts: no
