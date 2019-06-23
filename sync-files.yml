@@ -35,8 +35,3 @@
       src: files/osquery/
       dest: /opt/kolide/osquery/
       
-#  - name: docker-compose up
-#    docker_compose:
-#      project_src: /opt/kolide
-#      recreate: always
-#      state: present

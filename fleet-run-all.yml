@@ -11,8 +11,8 @@
 - name: Pull images referenced in docker-compose.yml
   import_playbook: pull-fleet-images.yml
 
-- name: Update Fleet configs and build/restart containers
-  import_playbook: update-fleet-containers.yml
+- name: Update Fleet configs
+  import_playbook: sync-files.yml
 
 - name: Add a desktop shortcut for Fleet
   import_playbook: add-fleet-shortcut.yml  
