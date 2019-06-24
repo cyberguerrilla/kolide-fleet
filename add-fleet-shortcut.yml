@@ -24,3 +24,19 @@
         URL=https://127.0.0.1:8443
         Icon=/usr/share/icons/fleet.png
         Name[en_US]=Kolide Fleet
+
+  - name: Create osquery shortcut
+    copy:
+      dest: /home/analyst/Desktop/Run-osquery.desktop
+      owner: analyst
+      group: analyst
+      mode: '0755'
+      content: |
+        [Desktop Entry]
+        Name=Run-osquery
+        Type=Application
+        Terminal=true
+        StartupNotify=false
+        Categories=Application
+        Icon=/usr/share/icons/osquery.png
+        Exec=/opt/playbooks/kolide-fleet/run-osquery.sh
