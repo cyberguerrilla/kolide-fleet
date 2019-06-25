@@ -9,3 +9,5 @@ sleep 60
 cd /opt/playbooks/windows-dc
 
 /opt/playbooks/windows-dc/config-osquery.sh
+
+read -p "Press key to continue... " -n1 -s
